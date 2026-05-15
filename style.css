@@ -1,0 +1,147 @@
+:root{
+    --p-green:#4CAF50;
+    --d-green:#2E7D32;
+}
+
+body{
+    font-family:sans-serif;
+    margin:0;
+    background:#f4f4f4;
+    display:flex;
+    justify-content:center;
+}
+
+.app{
+    width:100%;
+    max-width:450px;
+    background:white;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+header{
+    background:var(--p-green);
+    color:white;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+
+.actions{
+    display:flex;
+    gap:15px;
+    font-size:1.4rem;
+}
+
+.actions span{
+    cursor:pointer;
+}
+
+.list{
+    flex:1;
+    padding:10px;
+}
+
+.row{
+    display:flex;
+    align-items:center;
+    padding:10px 0;
+    border-bottom:1px solid #eee;
+}
+
+.nom{
+    width:120px;
+    font-weight:bold;
+    color:var(--d-green);
+    font-size:1rem;
+}
+
+.ctrl{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex:1;
+    justify-content:center;
+}
+
+.btn{
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    border:none;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.minus{
+    background:#e53935;
+}
+
+.plus{
+    background:var(--p-green);
+}
+
+input{
+    width:50px;
+    text-align:center;
+    border:none;
+    border-bottom:2px solid #ddd;
+    font-size:1.1rem;
+    outline:none;
+}
+
+.res{
+    width:120px;
+    text-align:right;
+    font-weight:600;
+    color:#444;
+}
+
+.summary{
+    background:#fafafa;
+    padding:15px;
+    border-top:2px dashed #ddd;
+    font-size:0.95rem;
+}
+
+.summary-row{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:8px;
+}
+
+.summary-row b{
+    color:#222;
+}
+
+footer{
+    background:#eee;
+    padding:20px;
+    border-top:2px solid #ccc;
+    position:sticky;
+    bottom:0;
+}
+
+.total-label{
+    font-size:1rem;
+    color:#666;
+    font-weight:bold;
+}
+
+.total-text{
+    font-size:2rem;
+    font-weight:800;
+    display:block;
+    text-align:right;
+    color:#222;
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Money Counter PRO</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+    <b>💰 Money Counter PRO</b>
+
+    <div class="actions">
+        <span onclick="printBT()" title="Print">🖨️</span>
+        <span onclick="saveTxt()" title="Save TXT">💾</span>
+        <span onclick="resetData()" title="Reset">🧹</span>
+    </div>
+</header>
+
+<div class="list" id="main-list"></div>
+
+<div class="summary">
+
+    <div class="summary-row">
+        <span>Total Uang Kertas</span>
+        <b id="paper-total">Rp 0</b>
+    </div>
+
+    <div class="summary-row">
+        <span>Total Uang Koin</span>
+        <b id="coin-total">Rp 0</b>
+    </div>
+
+    <div class="summary-row">
+        <span>Total Jumlah Uangnya</span>
+        <b id="qty-total">0</b>
+    </div>
+
+</div>
+
+<footer>
+    <span class="total-label">TOTAL AKHIR</span>
+    <span class="total-text" id="grand-total">Rp 0</span>
+</footer>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
