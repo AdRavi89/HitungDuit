@@ -163,7 +163,7 @@ function saveTxt(){
 
     a.href = URL.createObjectURL(blob);
 
-    a.download = `Kas_${dateStr}.txt`;
+    a.download = `HitungUang_${dateStr}.txt`;
 
     a.click();
 }
