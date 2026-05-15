@@ -178,14 +178,11 @@ async function printBT(){
     let coinTotal = 0;
     let qtyTotal = 0;
 
-    let txt = "\x1B\x40";
+    let txt = "";
 
-    txt += "\x1B\x61\x01";
     txt += "STRUK HITUNG UANG\n";
     txt += new Date().toLocaleString('id-ID') + "\n";
-    txt += "--------------------------------\n";
-
-    txt += "\x1B\x61\x00";
+    txt += "------------------------------\n";
 
     denoms.forEach((item,i)=>{
 
@@ -204,61 +201,81 @@ async function printBT(){
                 coinTotal += sub;
             }
 
-            let left = `${item.label} x ${qty}`;
-            let right = sub.toLocaleString('id-ID');
-
-            let space = 32 - left.length - right.length;
-
-            txt += left + " ".repeat(Math.max(1,space)) + right + "\n";
+            txt += `${item.label} x ${qty} = ${sub.toLocaleString('id-ID')}\n`;
         }
     });
 
-    txt += "--------------------------------\n";
+    txt += "------------------------------\n";
+    txt += `TOTAL KERTAS : ${paperTotal.toLocaleString('id-ID')}\n`;
+    txt += `TOTAL KOIN   : ${coinTotal.toLocaleString('id-ID')}\n`;
+    txt += `TOTAL ITEM   : ${qtyTotal}\n`;
+    txt += "------------------------------\n";
+    txt += `TOTAL AKHIR  : ${grandTotal.toLocaleString('id-ID')}\n\n\n`;
 
-    txt += `KERTAS : ${paperTotal.toLocaleString('id-ID')}\n`;
-    txt += `KOIN   : ${coinTotal.toLocaleString('id-ID')}\n`;
-    txt += `ITEM   : ${qtyTotal}\n`;
+    try {
 
-    txt += "--------------------------------\n";
-
-    txt += "\x1B\x45\x01";
-
-    txt += `TOTAL  : ${grandTotal.toLocaleString('id-ID')}\n`;
-
-    txt += "\x1B\x45\x00";
-
-    txt += "\n\n\n";
-
-    try{
-
+        // =========================
+        // REQUEST DEVICE
+        // =========================
         const device = await navigator.bluetooth.requestDevice({
-            filters:[{
-                services:['000018f0-0000-1000-8000-00805f9b34fb']
-            }],
-            optionalServices:[
+            acceptAllDevices: true,
+            optionalServices: [
                 '000018f0-0000-1000-8000-00805f9b34fb'
             ]
         });
 
+        console.log("DEVICE:", device.name);
+
+        // =========================
+        // CONNECT GATT
+        // =========================
         const server = await device.gatt.connect();
 
-        const service = await server.getPrimaryService(
-            '000018f0-0000-1000-8000-00805f9b34fb'
+        // =========================
+        // GET SERVICES
+        // =========================
+        const services = await server.getPrimaryServices();
+
+        let characteristic = null;
+
+        // Cari characteristic writable otomatis
+        for(const service of services){
+
+            const chars = await service.getCharacteristics();
+
+            for(const char of chars){
+
+                if(char.properties.write || char.properties.writeWithoutResponse){
+
+                    characteristic = char;
+                    break;
+                }
+            }
+
+            if(characteristic) break;
+        }
+
+        if(!characteristic){
+            alert("Printer tidak support write characteristic");
+            return;
+        }
+
+        // =========================
+        // PRINT
+        // =========================
+        const encoder = new TextEncoder();
+
+        await characteristic.writeValue(
+            encoder.encode(txt)
         );
 
-        const char = await service.getCharacteristic(
-            '00002af1-0000-1000-8000-00805f9b34fb'
-        );
+        alert("✅ Berhasil print!");
 
-        await char.writeValue(
-            new TextEncoder().encode(txt)
-        );
+    } catch(err){
 
-        alert("Berhasil mencetak!");
+        console.error(err);
 
-    }catch(e){
-
-        alert("Koneksi printer dibatalkan.");
+        alert("❌ Gagal koneksi printer");
     }
 }
 
